@@ -15,7 +15,7 @@ class Branch(models.Model):
 		verbose_name_plural = 'Branches'
 
 class ClassDetail(models.Model):
-	branch = models.ForeignKey(Branch, related_name="branch", null=True)
+	branch = models.ForeignKey(Branch, related_name="class_detail", null=True)
 	sem = models.CharField(max_length=5)
 	section = models.CharField(max_length=5)
 	no_of_student = models.PositiveIntegerField()
@@ -27,7 +27,7 @@ class ClassDetail(models.Model):
 
 class Student(models.Model):
 	user = models.OneToOneField(User, related_name="student_detail")
-	student_class = models.ForeignKey(ClassDetail, related_name="student_class")
+	student_class = models.ForeignKey(ClassDetail, related_name="student")
 	usn = models.CharField(max_length=15, unique=True)
 	join_year = models.PositiveIntegerField()
 

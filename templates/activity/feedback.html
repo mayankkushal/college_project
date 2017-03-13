@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+<div class="container first">
+answer
+<form method="post">
+{% csrf_token %}
+	{% for form, que in form_zip %}
+	 {{ formset.management_form }}
+	<p>{{ que.question }}</p>
+	{{ form }}
+	{% endfor %}
+	<input type="submit" name="submit">
+</form>
+</div>
+{% endblock %}

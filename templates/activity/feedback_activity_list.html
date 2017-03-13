@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+<div class="container first">
+	<h1>Activities</h1>
+	<ul>
+	{% for activity in activity_list %}
+		<a href=""><li>{{ activity.topic }}</li></a>
+	{% endfor %}
+	</ul>
+</div>
+{% endblock %}

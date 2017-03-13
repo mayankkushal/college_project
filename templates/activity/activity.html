@@ -6,5 +6,10 @@
 <div class="container first">
 	<h1>Activites</h1>
 	<h1>{{ activity.topic }}</h1>
+	{% with activity.activity_type.feedback_question.all as questions %}
+	{% for que in questions  %}
+	<p>{{ que.question }}</p>
+	{% endfor %}
+	{% endwith %}
 </div>
 {% endblock %}
