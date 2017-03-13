@@ -1,5 +1,6 @@
 from django.db import models
 from details.models import Teacher, Student, ClassDetail
+from django.urls import reverse
 
 # Create your models here.
 class ActivityType(models.Model):
@@ -23,6 +24,9 @@ class Activity(models.Model):
 
 	def __str__(self):
 		return self.teacher.emp_id+"("+str(self.date)+")" #date makes it easier to distinguish
+
+	def get_absolute_url(self):
+		return '/activity/activity/%s'% self.pk
 
 	class Meta:
 		verbose_name_plural = "Activities"
