@@ -22,7 +22,7 @@ class Activity(models.Model):
 	attendance = models.PositiveIntegerField()
 
 	def __str__(self):
-		return self.teacher.emp_id
+		return self.teacher.emp_id+"("+str(self.date)+")" #date makes it easier to distinguish
 
 	class Meta:
 		verbose_name_plural = "Activities"

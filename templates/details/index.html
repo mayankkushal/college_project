@@ -5,13 +5,16 @@
 {% block body_block %}
 	<!--add our code here. do not touch base.html -->
 	<header>
-        <div class="container">
-            <div class="intro-text">
-                <div class="intro-lead-in">Welcome To BMSIT Records</div>
-                <div class="intro-heading">It's Nice To Meet You</div>
-                <a href="#services" class="page-scroll btn btn-xl">Login</a>
+        <div class="header-content">
+            <div class="header-content-inner">
+                <h1 id="homeHeading">BMSIT Records</h1>
+                <hr>
+                {% if user.is_authenticated %}
+                <a href="{% url 'auth_logout' %}?next={% url 'index' %}" class="btn btn-primary btn-xl page-scroll">Logout</a>
+                {% else %}
+                <a href="{% url 'auth_login' %}" class="btn btn-primary btn-xl page-scroll">Login</a><a href="{% url 'registration_register' %}" class="btn btn-primary btn-xl page-scroll">register</a>
+                {% endif %}
             </div>
         </div>
     </header>
-	<h1>Home</h1>
 {% endblock %}
