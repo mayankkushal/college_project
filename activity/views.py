@@ -1,7 +1,7 @@
 from django.shortcuts import render, reverse
 from django.http import HttpResponseRedirect
 from django.contrib.admin.views.decorators import staff_member_required
-from .models import Activity, FeedbackAnswer
+from .models import Activity, FeedbackAnswer, FeedbackQuestion
 from details.models import Teacher, Student
 from .forms import FeedbackAnswerForm
 from django.forms.models import modelformset_factory
@@ -16,7 +16,17 @@ def activity_list(request):
 @staff_member_required
 def activity(request, pk):
 	activity = Activity.objects.get(pk=pk)
-	return render(request, 'activity/activity.html', {'activity':activity})
+
+	#getting all the different answer counts
+	total_answers = FeedbackAnswer.objects.filter(activity=activity).count()
+	excelent_no = FeedbackAnswer.objects.filter(activity=activity, answer="Excelent").count()
+	good_no = FeedbackAnswer.objects.filter(activity=activity, answer="Good").count()
+	average_no = FeedbackAnswer.objects.filter(activity=activity, answer="Average").count()
+	bad_no = FeedbackAnswer.objects.filter(activity=activity, answer="Bad").count()
+
+	context_dict = {'activity':activity, "excelent_no":excelent_no, "total_answers":total_answers,
+					"excelent_no":excelent_no, "good_no":good_no, "average_no":average_no, "bad_no":bad_no}
+	return render(request, 'activity/activity.html', context_dict)
 
 def feedback_activity(request):
 	student = Student.objects.get(user=request.user)
@@ -26,18 +36,20 @@ def feedback_activity(request):
 def feedback(request, pk):
 	activity = Activity.objects.get(pk=pk)
 	student = Student.objects.get(user=request.user)
+
+	#extra number has to be changed with the number of questions
 	AnswerFormSet = modelformset_factory(FeedbackAnswer, form=FeedbackAnswerForm, extra=2)
 	if request.method == 'POST':
 		formset = AnswerFormSet(request.POST, queryset=FeedbackAnswer.objects.none())
 		if formset.is_valid():
-			for form, que in zip(formset, activity.activity_type.feedback_question.all()):
+			for form, que in zip(formset, FeedbackQuestion.objects.all()):
 				ans = form.cleaned_data.get('answer')
-				print(ans)
-				answer = FeedbackAnswer(answer=ans, student=student, question=que, activity=activity )
+				answer = FeedbackAnswer(answer=ans, student=student, question=que, activity=activity)
 				answer.save()
 		return HttpResponseRedirect(reverse('index'))
 	else:
 		formset = AnswerFormSet(queryset=FeedbackAnswer.objects.none())
-		form_zip = zip(formset, activity.activity_type.feedback_question.all())
+		form_zip = zip(formset, FeedbackQuestion.objects.all())
 		return render(request, 'activity/feedback.html', {'formset':formset, 'activity':activity, 'form_zip':form_zip})
 
+ 

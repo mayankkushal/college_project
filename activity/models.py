@@ -32,18 +32,17 @@ class Activity(models.Model):
 		verbose_name_plural = "Activities"
 
 class FeedbackQuestion(models.Model):
-	activity_type = models.ForeignKey(ActivityType, related_name='feedback_question')
 	question = models.TextField(max_length=5000)
 
 	def __str__(self):
-		return self.activity_type.name+"-"+self.question
+		return self.question
 
 class FeedbackAnswer(models.Model):
-	activity = models.ForeignKey(Activity, related_name='feedback_answer')
+	activity = models.ForeignKey(Activity, related_name="feedback_ans", null=True)
 	student = models.ForeignKey(Student)
 	question = models.ForeignKey(FeedbackQuestion)
 	CHOICES = [('Excelent','Excelent'), ('Good','Good'), ('Average','Average'), 
-	('Bad','Bad'), ('Please Stop', 'Please Stop')]
+	('Bad','Bad')]
 	answer = models.CharField(max_length=50, choices=CHOICES, default='Please Stop')
 
 	def __str__(self):

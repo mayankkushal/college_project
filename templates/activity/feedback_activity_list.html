@@ -5,7 +5,7 @@
 	<h1>Activities</h1>
 	<ul>
 	{% for activity in activity_list %}
-		<a href=""><li>{{ activity.topic }}</li></a>
+		<a href="{% url 'activity:feedback' pk=activity.pk %}"><li>{{ activity.topic }}</li></a>
 	{% endfor %}
 	</ul>
 </div>

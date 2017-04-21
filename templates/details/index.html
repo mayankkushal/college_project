@@ -10,9 +10,15 @@
                 <h1 id="homeHeading">BMSIT Records</h1>
                 <hr>
                 {% if user.is_authenticated %}
-                <a href="{% url 'auth_logout' %}?next={% url 'index' %}" class="btn btn-primary btn-xl page-scroll">Logout</a>
+                    <a href="{% url 'auth_logout' %}?next={% url 'index' %}" class="btn btn-primary btn-xl page-scroll">Logout</a>
+                    {% if user.is_staff %}
+                        <a href="{% url 'activity:activity_list' %}" class="btn btn-primary btn-xl page-scroll">Activities</a>
+                    {% else %}
+                        <a href="{% url 'activity:feedback_activity' %}" class="btn btn-primary btn-xl page-scroll">Feedback</a>
+                    {% endif %}
                 {% else %}
-                <a href="{% url 'auth_login' %}" class="btn btn-primary btn-xl page-scroll">Login</a><a href="{% url 'registration_register' %}" class="btn btn-primary btn-xl page-scroll">register</a>
+                <a href="{% url 'auth_login' %}" class="btn btn-primary btn-xl page-scroll">Login</a>
+                <a href="{% url 'registration_register' %}" class="btn btn-primary btn-xl page-scroll">register</a>
                 {% endif %}
             </div>
         </div>

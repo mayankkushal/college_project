@@ -1,16 +1,20 @@
 {% extends 'base.html' %}
 
+{% block title_block %}Feedback | {{ activity.topic }} {% endblock %}
+
 {% block body_block %}
 <div class="container first">
-answer
+<h2>Please give feedback for "{{ activity.topic}}"</h2>
 <form method="post">
 {% csrf_token %}
+	<ol>
 	{% for form, que in form_zip %}
 	 {{ formset.management_form }}
-	<p>{{ que.question }}</p>
+	<li><h3>{{ que.question }} :</h3></li>
 	{{ form }}
 	{% endfor %}
-	<input type="submit" name="submit">
+	</ol>
+	<input type="submit" name="submit" id="feedback-submit">
 </form>
 </div>
 {% endblock %}

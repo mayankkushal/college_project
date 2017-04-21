@@ -4,12 +4,26 @@
 
 {% block body_block %}
 <div class="container first">
-	<h1>Activites</h1>
-	<h1>{{ activity.topic }}</h1>
-	{% with activity.activity_type.feedback_question.all as questions %}
-	{% for que in questions  %}
-	<p>{{ que.question }}</p>
-	{% endfor %}
-	{% endwith %}
+	<h1>Summary</h1>
+	<h2>Summary for your activity "{{ activity.topic }}" </h2>
+	<h3>Feedback Summary</h3>
+	<ul>
+		<li>Total feedbacks : {{ total_answers }}</li>
+		<li>Excelent : {{ excelent_no }}</li>
+		<li>Good : {{ good_no }}</li>
+		<li>Average : {{ average_no }}</li>
+		<li>Bad : {{ bad_no }}</li>
+	</ul>
 </div>
+<div id="act-chart">
+	<canvas id="activity-chart" width="844" height="424"></canvas>
+</div>
+
+<script>
+	var total ={{ total_answers }};
+	var excelent = {{ excelent_no }};
+	var good = {{ good_no }};
+	var avg = {{ average_no }};
+	var bad = {{ bad_no }};
+</script>
 {% endblock %}

@@ -1,32 +1,60 @@
-(function($) {
-    "use strict"; // Start of use strict
+$(function () {
+    var button = $('#feedback-submit').prop('hidden', true);
+    var radios = $('input[type="radio"]');
+    var arr    = $.map(radios, function(el) { 
+                return el.name; 
+              });
 
-    // jQuery for page scrolling feature - requires jQuery Easing plugin
-    $('a.page-scroll').bind('click', function(event) {
-        var $anchor = $(this);
-        $('html, body').stop().animate({
-            scrollTop: ($($anchor.attr('href')).offset().top - 50)
-        }, 1250, 'easeInOutExpo');
-        event.preventDefault();
+    var groups = $.grep(arr, function(v, k){
+            return $.inArray(v ,arr) === k;
+    }).length;
+
+    radios.on('change', function () {
+        button.prop('hidden', radios.filter(':checked').length < groups);
     });
 
-    // Highlight the top nav as scrolling occurs
-    $('body').scrollspy({
-        target: '.navbar-fixed-top',
-        offset: 51
-    });
-
-    // Closes the Responsive Menu on Menu Item Click
-    $('.navbar-collapse ul li a').click(function() {
-        $('.navbar-toggle:visible').click();
-    });
-
-    // Offset for Main Navigation
-    $('#mainNav').affix({
-        offset: {
-            top: 100
-        }
-    })
-
-
-})(jQuery); // End of use strict
+    var ctx = document.getElementById("activity-chart");
+    var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ["Excelent", "Good", "Average", "Bad"],
+        datasets: [{
+            label: 'Feedback',
+            data: [excelent, good, avg, bad],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 2,
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    max : total,
+                    stepSize : 5,
+                    beginAtZero:true
+                },
+                }],
+            xAxes: [{ barThickness: 73,
+                categoryPercentage : 1, 
+            }]
+            },
+            maintainAspectRatio: false,
+            responsive: true
+    },
+});
+});
