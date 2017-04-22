@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+<div class="container" style="padding-top:60px; ">
+	<form method="post">
+	{% csrf_token %}
+	{{ activity_form.hidden }}
+	{{ activity_form.errors }}
+		{{ activity_form.as_p }}
+		<button type="submit" name="submit">Submit</button>
+	</form>
+<div>
+{% endblock %}

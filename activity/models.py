@@ -20,7 +20,7 @@ class Activity(models.Model):
 	topic = models.CharField(max_length=200)
 	description = models.TextField(max_length=5000)
 	resource = models.TextField(max_length=5000)
-	attendance = models.PositiveIntegerField()
+	attendance = models.ManyToManyField(Student)
 
 	def __str__(self):
 		return self.teacher.emp_id+"("+str(self.date)+")" #date makes it easier to distinguish
@@ -47,3 +47,6 @@ class FeedbackAnswer(models.Model):
 
 	def __str__(self):
 		return self.student.usn
+
+
+

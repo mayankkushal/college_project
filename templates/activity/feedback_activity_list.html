@@ -2,10 +2,10 @@
 
 {% block body_block %}
 <div class="container first">
-	<h1>Activities</h1>
+	<h1>Activities attended</h1>
 	<ul>
 	{% for activity in activity_list %}
-		<a href="{% url 'activity:feedback' pk=activity.pk %}"><li>{{ activity.topic }}</li></a>
+		<a href="{% url 'activity:feedback' pk=activity.pk %}"><li>{{ activity.activity_type}} - {{ activity.topic }}</li></a>
 	{% endfor %}
 	</ul>
 </div>

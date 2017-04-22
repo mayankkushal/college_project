@@ -4,17 +4,21 @@
 
 {% block body_block %}
 <div class="container first">
-<h2>Please give feedback for "{{ activity.topic}}"</h2>
-<form method="post">
-{% csrf_token %}
-	<ol>
-	{% for form, que in form_zip %}
-	 {{ formset.management_form }}
-	<li><h3>{{ que.question }} :</h3></li>
-	{{ form }}
-	{% endfor %}
-	</ol>
-	<input type="submit" name="submit" id="feedback-submit">
-</form>
+{% if feedback %}
+	<h2>You have already given feedback for "{{ activity.activity_type }}" on topic "{{ activity.topic }}"</h2>
+{% else %}
+	<h2>Please give feedback for "{{ activity.activity_type }}" on topic "{{ activity.topic }}"</h2>
+	<form method="post">
+	{% csrf_token %}
+		<ol>
+		{% for form, que in form_zip %}
+		 {{ formset.management_form }}
+		<li><h3>{{ que.question }} :</h3></li>
+		{{ form }}
+		{% endfor %}
+		</ol>
+		<input type="submit" name="submit" id="feedback-submit">
+	</form>
+{% endif %}
 </div>
 {% endblock %}

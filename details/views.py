@@ -1,8 +1,24 @@
-from django.shortcuts import render
+from django.shortcuts import render, reverse
+from django.http import HttpResponseRedirect
 from .models import Student, ClassDetail
+from .forms import StudentRegisterForm
+
 
 # Create your views here.
 def index(request):
-	student_list = Student.objects.filter(student_class=ClassDetail.objects.get(sem=4, section='a')).order_by('usn')
-	context_dict = {'student_list':student_list}
+	context_dict = {}
 	return render(request, 'details/index.html', context_dict)
+
+def student_register(request):
+	if request.method == 'POST':
+		student_form = StudentRegisterForm(request.POST)
+		if student_form.is_valid():
+			student = student_form.save(commit=False)
+			student.user = request.user
+			student.save()
+			return HttpResponseRedirect(reverse('activity:feedback_activity'))
+		else:
+			return HttpResponse("Registration Failed. Try again")
+	else:
+		student_form = StudentRegisterForm()
+		return render(request, 'details/student_register.html', {'student_form':student_form})
