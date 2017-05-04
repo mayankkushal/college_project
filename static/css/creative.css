@@ -1,4 +1,11 @@
-
+.activity-form{
+  width: 65%;
+}
+@media (max-width: 760px){
+  .activity-form{
+    width: 100%;
+  }
+}
 html,
 body {
   height: 100%;

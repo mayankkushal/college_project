@@ -1,11 +1,13 @@
 {% extends 'base.html' %}
 
 {% block body_block %}
-<div class="container first">
+<div class="container">
 	<h1>Activities attended</h1>
 	<ul>
 	{% for activity in activity_list %}
 		<a href="{% url 'activity:feedback' pk=activity.pk %}"><li>{{ activity.activity_type}} - {{ activity.topic }}</li></a>
+	{% empty %}
+		<h1>None!! Please come back when you attend any activity.<br> Thank You</h1>
 	{% endfor %}
 	</ul>
 </div>

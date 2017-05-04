@@ -22,3 +22,9 @@ def student_register(request):
 	else:
 		student_form = StudentRegisterForm()
 		return render(request, 'details/student_register.html', {'student_form':student_form})
+
+from registration.backends.simple.views import RegistrationView
+
+class MyRegistrationView(RegistrationView):
+	def get_success_url(self, request, user):
+		return HttpResponseRedirect(reverse('student_register'))

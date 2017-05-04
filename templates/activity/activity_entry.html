@@ -1,13 +1,22 @@
 {% extends 'base.html' %}
+{% load widget_tweaks %}
 
 {% block body_block %}
-<div class="container" style="padding-top:60px; ">
-	<form method="post">
+<div class="container activity-form">
+	<h2>Enter the activity details</h2>
+	<br>
+	<form method="post" class="form-horizontal">
 	{% csrf_token %}
-	{{ activity_form.hidden }}
-	{{ activity_form.errors }}
-		{{ activity_form.as_p }}
-		<button type="submit" name="submit">Submit</button>
+	{% for field in activity_form %}
+	<div class="form-group">
+	<label class="control-label col-sm-2">{{ field.label }}</label>
+	<div class="col-sm-10">
+		{% render_field field class="form-control" placeholder=field.label %}
+	</div>
+	</div>
+	<br>
+	{% endfor %}
+		<button type="submit" name="submit" class="btn btn-primary btn-lg">Submit</button>
 	</form>
 <div>
 {% endblock %}
