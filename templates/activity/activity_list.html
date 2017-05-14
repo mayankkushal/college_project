@@ -5,10 +5,10 @@
 {% block body_block %}
 <div class="container">
 	<h1>Activites</h1>
-	<ul>
+	<ol class="act_list">
 	{% for activity in activity_list %}
-		<a href="{{ activity.get_absolute_url }}"><li>{{ activity.topic }}</li></a>
+		<li><a href="{{ activity.get_absolute_url }}">{{ activity.topic }}</a></li>
 	{% endfor %}
-	</ul>
+	</ol>
 </div>
 {% endblock %}

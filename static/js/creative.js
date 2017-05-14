@@ -17,10 +17,10 @@ $(function () {
     var myChart = new Chart(ctx, {
     type: 'bar',
     data: {
-        labels: ["Excelent", "Good", "Average", "Bad"],
+        labels: ["Low", "Medium", "High"],
         datasets: [{
             label: 'Feedback',
-            data: [excelent, good, avg, bad],
+            data: [low, medium, high],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',

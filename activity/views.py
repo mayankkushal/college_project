@@ -19,13 +19,12 @@ def activity(request, pk):
 
 	#getting all the different answer counts
 	total_answers = FeedbackAnswer.objects.filter(activity=activity).count()
-	excelent_no = FeedbackAnswer.objects.filter(activity=activity, answer="Excelent").count()
-	good_no = FeedbackAnswer.objects.filter(activity=activity, answer="Good").count()
-	average_no = FeedbackAnswer.objects.filter(activity=activity, answer="Average").count()
-	bad_no = FeedbackAnswer.objects.filter(activity=activity, answer="Bad").count()
+	low_no = FeedbackAnswer.objects.filter(activity=activity, answer="LOw").count()
+	medium_no = FeedbackAnswer.objects.filter(activity=activity, answer="Medium").count()
+	high_no = FeedbackAnswer.objects.filter(activity=activity, answer="High").count()
 
-	context_dict = {'activity':activity, "excelent_no":excelent_no, "total_answers":total_answers,
-					"excelent_no":excelent_no, "good_no":good_no, "average_no":average_no, "bad_no":bad_no}
+	context_dict = {'activity':activity, "low_no":low_no, "total_answers":total_answers,
+					 "medium_no":medium_no, "high_no":high_no}
 	return render(request, 'activity/activity.html', context_dict)
 
 def feedback_activity(request):

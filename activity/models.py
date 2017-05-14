@@ -41,8 +41,7 @@ class FeedbackAnswer(models.Model):
 	activity = models.ForeignKey(Activity, related_name="feedback_ans", null=True)
 	student = models.ForeignKey(Student)
 	question = models.ForeignKey(FeedbackQuestion)
-	CHOICES = [('Excelent','Excelent'), ('Good','Good'), ('Average','Average'), 
-	('Bad','Bad')]
+	CHOICES = [('Low','Low'), ('Medium','Medium'), ('High','High')]
 	answer = models.CharField(max_length=50, choices=CHOICES, default='Please Stop')
 
 	def __str__(self):
