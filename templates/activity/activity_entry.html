@@ -1,17 +1,27 @@
 {% extends 'base.html' %}
 {% load widget_tweaks %}
 
+{% block title_block %}Activity Entry{% endblock %}
+
 {% block body_block %}
 <div class="container activity-form">
 	<h2>Enter the activity details</h2>
 	<br>
 	<form method="post" class="form-horizontal">
 	{% csrf_token %}
+	{% for er in form.errors %}
+		{{ er }}
+	{% endfor %}
 	{% for field in activity_form %}
 	<div class="form-group">
 	<label class="control-label col-sm-2">{{ field.label }}</label>
 	<div class="col-sm-10">
-		{% render_field field class="form-control" placeholder=field.label %}
+		{% ifequal field|field_type 'modelmultiplechoicefield' %}
+			{% render_field field class="form-control" placeholder=field.label size="15" %}
+			<small class="form-text text-muted">{{ field.help_text }}</small>
+		{% else %}
+			{% render_field field class="form-control" placeholder=field.label %}
+		{% endifequal %}
 	</div>
 	</div>
 	<br>

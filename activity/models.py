@@ -1,5 +1,6 @@
 from django.db import models
 from details.models import Teacher, Student, ClassDetail
+from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
 
 # Create your models here.
@@ -20,7 +21,7 @@ class Activity(models.Model):
 	topic = models.CharField(max_length=200)
 	description = models.TextField(max_length=5000)
 	resource = models.TextField(max_length=5000)
-	attendance = models.ManyToManyField(Student)
+	attendance = models.ManyToManyField(Student, help_text='Hold down "Control", or "Command" on a Mac, to select more than one.')
 
 	def __str__(self):
 		return self.teacher.emp_id+"("+str(self.date)+")" #date makes it easier to distinguish
