@@ -4,7 +4,8 @@ from .models import ActivityType, Activity, FeedbackQuestion, FeedbackAnswer
 # Register your models here.
 class ActivityModel(admin.ModelAdmin):
 	list_display = ('teacher_id', 'date', 'activity_type')
-
+	filter_horizontal = ('attendance',) 
+	
 	def teacher_id(obj):
 		return str(obj.teacher.emp_id)
 

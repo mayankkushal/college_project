@@ -17,7 +17,7 @@
 	<label class="control-label col-sm-2">{{ field.label }}</label>
 	<div class="col-sm-10">
 		{% ifequal field|field_type 'modelmultiplechoicefield' %}
-			{% render_field field class="form-control" placeholder=field.label size="15" %}
+			{% render_field field class="form-control" size="15" %}
 			<small class="form-text text-muted">{{ field.help_text }}</small>
 		{% else %}
 			{% render_field field class="form-control" placeholder=field.label %}

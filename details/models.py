@@ -22,7 +22,7 @@ class ClassDetail(models.Model):
 	year = models.PositiveIntegerField()
 
 	def __str__(self):
-		return str(self.year)+"-"+self.sem+"-"+self.section
+		return str(self.year)+"-"+self.section
 
 
 class Student(models.Model):
