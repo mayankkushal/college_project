@@ -1,10 +1,12 @@
 from django.shortcuts import render, reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.admin.views.decorators import staff_member_required
 from .models import Activity, FeedbackAnswer, FeedbackQuestion
 from details.models import Teacher, Student
 from .forms import FeedbackAnswerForm, ActivityForm
 from django.forms.models import modelformset_factory
+
+import csv
 
 
 # Create your views here.
@@ -13,13 +15,14 @@ def activity_list(request):
 	activity_list = Activity.objects.filter(teacher=Teacher.objects.get(user=request.user))
 	return render(request, 'activity/activity_list.html', {'activity_list':activity_list})
 
+
 @staff_member_required
 def activity(request, pk):
 	activity = Activity.objects.get(pk=pk)
 
 	#getting all the different answer counts
 	total_answers = FeedbackAnswer.objects.filter(activity=activity).count()
-	low_no = FeedbackAnswer.objects.filter(activity=activity, answer="LOw").count()
+	low_no = FeedbackAnswer.objects.filter(activity=activity, answer="Low").count()
 	medium_no = FeedbackAnswer.objects.filter(activity=activity, answer="Medium").count()
 	high_no = FeedbackAnswer.objects.filter(activity=activity, answer="High").count()
 
@@ -27,10 +30,12 @@ def activity(request, pk):
 					 "medium_no":medium_no, "high_no":high_no}
 	return render(request, 'activity/activity.html', context_dict)
 
+
 def feedback_activity(request):
 	student = Student.objects.get(user=request.user)
 	activity_list = Activity.objects.filter(for_class=student.student_class, attendance=student)
 	return render(request, 'activity/feedback_activity_list.html', {'activity_list':activity_list})
+
 
 def feedback(request, pk):
 	activity = Activity.objects.get(pk=pk)
@@ -57,6 +62,7 @@ def feedback(request, pk):
 			form_zip = zip(formset, FeedbackQuestion.objects.all())
 			return render(request, 'activity/feedback.html', {'formset':formset, 'activity':activity, 'form_zip':form_zip})
 
+
 @staff_member_required
 def activity_entry(request):
 	if request.method == 'POST':
@@ -71,4 +77,30 @@ def activity_entry(request):
 	else:
 		activity_form = ActivityForm()
 		return render(request, 'activity/activity_entry.html', {'activity_form':activity_form})
+
+
+def download_csv(request, pk):
+	"""
+		Renders all the emails of the `Newsletter` to a .csv file.
+		Only admin is allowed to download.
+	"""
+	if request.user.is_superuser:
+		activity = Activity.objects.get(pk=pk)
+		student_list = Student.objects.filter(activity=activity)
+
+		response =  HttpResponse(content_type='text/csv')
+		response['Content-Disposition'] = 'attachment;filename='+activity.topic+'.csv'
+
+		writer = csv.writer(response)
+		writer.writerow(['USN', 1,2,3,4,5,6,7,8,9,10,11,12])
+		for st in student_list:
+			row = [st.usn]
+			feedback = FeedbackAnswer.objects.filter(student=st, activity=activity)
+			for f in feedback:
+				row.append(f.answer)
+			writer.writerow(row)
+
+		return response
+	else:
+		return redirect(reverse('index'))
  
