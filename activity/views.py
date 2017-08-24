@@ -33,7 +33,7 @@ def activity(request, pk):
 
 def feedback_activity(request):
 	student = Student.objects.get(user=request.user)
-	activity_list = Activity.objects.filter(for_class=student.student_class, attendance=student)
+	activity_list = Activity.objects.filter(attendance=student)
 	return render(request, 'activity/feedback_activity_list.html', {'activity_list':activity_list})
 
 
